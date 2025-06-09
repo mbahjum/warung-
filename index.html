@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warung Makan Mbah Jum</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(255, 182, 193, 0.3);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff69b4;
+            text-decoration: none;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-5px); }
+            60% { transform: translateY(-3px); }
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: #ff69b4;
+        }
+
+        .cart-icon {
+            position: relative;
+            background: #ff69b4;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .cart-icon:hover {
+            background: #ff1493;
+            transform: scale(1.05);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff1493;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect width="1200" height="600" fill="%23ffb6c1"/><circle cx="200" cy="150" r="100" fill="%23ff69b4" opacity="0.3"/><circle cx="800" cy="400" r="80" fill="%23ff1493" opacity="0.3"/><circle cx="1000" cy="100" r="60" fill="%23ffc0cb" opacity="0.3"/></svg>') center/cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 105, 180, 0.8), rgba(255, 182, 193, 0.6));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+
+        .cta-button {
+            background: white;
+            color: #ff69b4;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            background: #ff69b4;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+        }
+
+        /* Sections */
+        .section {
+            padding: 80px 0;
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #ff69b4;
+            margin-bottom: 50px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* Menu Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(255, 182, 193, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 182, 193, 0.3);
+        }
+
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(45deg, #ff9a9e, #fecfef);
+            border-radius: 20px 20px 0 0;
+            z-index: 1;
+        }
+
+        .menu-item-content {
+            position: relative;
+            z-index: 2;
+            padding-top: 60px;
+        }
+
+        .menu-item h3 {
+            color: #ff69b4;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .menu-item p {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #ff1493;
+            margin-bottom: 15px;
+        }
+
+        .add-to-cart {
+            background: #ff69b4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .add-to-cart:hover {
+            background: #ff1493;
+            transform: scale(1.05);
+        }
+
+        /* Cart Modal */
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+        }
+
+        .cart-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-btn {
+            background: #ff69b4;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .close-cart {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .checkout-btn {
+            background: #ff69b4;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .checkout-btn:hover {
+            background: #ff1493;
+        }
+
+        /* Order Form */
+        .order-form {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(255, 182, 193, 0.2);
+            margin-top: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ffc0cb;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #ff69b4;
+        }
+
+        /* Map Container */
+        .map-container {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(255, 182, 193, 0.2);
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .map-placeholder {
+            background: linear-gradient(45deg, #ff9a9e, #fecfef);
+            height: 300px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cart-content {
+                width: 95%;
+                padding: 20px;
+            }
+        }
+
+        /* Floating Animation */
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Pulse Animation */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #25d366;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            z-index: 1000;
+            animation: pulse 2s infinite;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(255, 182, 193, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 182, 193, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: #ff69b4;
+            margin-bottom: 20px;
+        }
+
+        .total-price {
+            background: #ff69b4;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">Warung Makan Mbah Jum</a>
+            <ul class="nav-links">
+                <li><a onclick="showSection('home')">Home</a></li>
+                <li><a onclick="showSection('features')">Features</a></li>
+                <li><a onclick="showSection('menu')">Menu</a></li>
+                <li><a onclick="showSection('order')">Order</a></li>
+                <li><a onclick="showSection('location')">Location</a></li>
+            </ul>
+            <button class="cart-icon" onclick="toggleCart()">
+                🛒 Cart
+                <span class="cart-count" id="cartCount">0</span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="floating">Warung Makan Mbah Jum</h1>
+            <p>Citarasa Masakan Rumahan</p>
+            <a href="#" class="cta-button pulse" onclick="showSection('menu')">Order Now</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section">
+        <div class="container">
+            <h2>🌟 Our Amazing Features</h2>
+            <div class="features-grid">
+                <div class="feature-card floating">
+                    <div class="feature-icon">🚚</div>
+                    <h3>Rasa Autentik</h3>
+                    <p>Penuh citarasa layaknya masakan Ibunda.</p>
+                </div>
+                <div class="feature-card floating">
+                    <div class="feature-icon">💳</div>
+                    <h3>Kemudahan Transaksi</h3>
+                    <p>apat memesan melalui online ataupun offline.</p>
+                </div>
+                <div class="feature-card floating">
+                    <div class="feature-icon">📱</div>
+                    <h3>Akses Mudah</h3>
+                    <p>Lokasi strategis dekat kampus dengan harga terjangkau.</p>
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="section">
+        <div class="container">
+            <h2>🍽️ Our Menu</h2>
+            
+            <h3 style="color: #ff69b4; margin: 40px 0 20px 0; font-size: 1.8rem;">🍔 Main Dishes</h3>
+            <div class="menu-grid" id="foodMenu">
+                <!-- Food items will be generated by JavaScript -->
+            </div>
+
+            <h3 style="color: #ff69b4; margin: 40px 0 20px 0; font-size: 1.8rem;">🥤 Beverages</h3>
+            <div class="menu-grid" id="drinkMenu">
+                <!-- Drink items will be generated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Section -->
+    <section id="order" class="section">
+        <div class="container">
+            <h2>📋 Your Order</h2>
+            <div class="order-form">
+                <h3 style="color: #ff69b4; margin-bottom: 20px;">Customer Information</h3>
+                <div class="form-group">
+                    <label for="customerName">Full Name</label>
+                    <input type="text" id="customerName" placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="customerPhone">Phone Number</label>
+                    <input type="tel" id="customerPhone" placeholder="Enter your phone number">
+                </div>
+                <div class="form-group">
+                    <label for="customerAddress">Delivery Address</label>
+                    <textarea id="customerAddress" rows="3" placeholder="Enter your complete address"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="deliveryTime">Preferred Delivery Time</label>
+                    <select id="deliveryTime">
+                        <option value="asap">As Soon As Possible</option>
+                        <option value="30min">30 Minutes</option>
+                        <option value="1hour">1 Hour</option>
+                        <option value="2hour">2 Hours</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="specialNotes">Special Notes</label>
+                    <textarea id="specialNotes" rows="2" placeholder="Any special requests or notes"></textarea>
+                </div>
+                
+                <div id="orderSummary" class="total-price" style="display: none;">
+                    <h4>Order Summary</h4>
+                    <div id="orderItems"></div>
+                    <div id="totalAmount"></div>
+                </div>
+                
+                <button class="checkout-btn" onclick="processOrder()">🛒 Complete Order via WhatsApp</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section id="location" class="section">
+        <div class="container">
+            <h2>📍 Find Us</h2>
+            <div class="map-container">
+                <h3 style="margin-bottom: 20px;">Our Location</h3>
+                    <div id="map-container" role="region" aria-label="Google Maps location">
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3952.033127013168!2d110.42030131533438!3d-7.005145294927471!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e708b5c0a0e3a9d%3A0x3027a76e352b8b0!2sSemarang%2C%20Indonesia!5e0!3m2!1sid!2sid!4v1717755950000!5m2!1sid!2sid" 
+        width="600" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        title="Google Maps Location">
+      </iframe>
+    </div>
+  </section>
+</main>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <button class="close-cart" onclick="toggleCart()">×</button>
+            <h3 style="color: #ff69b4; margin-bottom: 20px;">🛒 Your Cart</h3>
+            <div id="cartItems"></div>
+            <div class="total-price" id="cartTotal">Total: Rp 0</div>
+            <button class="checkout-btn" onclick="showSection('order'); toggleCart();">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- WhatsApp Button -->
+    <button class="whatsapp-btn" onclick="orderViaWhatsApp()" title="Order via WhatsApp">
+        📱
+    </button>
+
+    <script>
+        // Menu Data
+        const foodItems = [
+            { name: "Nasi Rames", desc: "Mixed rice with various side dishes", price: 15000, emoji: "🍛" },
+            { name: "Ayam Geprek", desc: "Smashed fried chicken with chili", price: 8000, emoji: "🍗" },
+            { name: "Ayam Kecap", desc: "Chicken in sweet soy sauce", price: 8000, emoji: "🍗" },
+            { name: "Ayam Kari", desc: "Chicken curry Indonesian style", price: 8000, emoji: "🍗" },
+            { name: "Ayam Balado", desc: "Chicken in spicy red chili sauce", price: 8000, emoji: "🍗" },
+            { name: "Ayam Krispi", desc: "Crispy fried chicken", price: 8000, emoji: "🍗" },
+            { name: "Soto Ayam", desc: "Indonesian chicken soup with herbs", price: 8000, emoji: "🍲" },
+            { name: "Galantin Goreng", desc: "Fried chicken liver and gizzard", price: 4000, emoji: "🍖" },
+            { name: "Galantin Kecap", desc: "Chicken liver in sweet soy sauce", price: 4000, emoji: "🍖" },
+            { name: "Tunjang Pedas", desc: "Spicy beef trotters", price: 5000, emoji: "🥩" },
+            { name: "Lele Goreng", desc: "Fried catfish", price: 8000, emoji: "🐟" },
+            { name: "Lele Balado", desc: "Catfish in spicy red chili sauce", price: 8000, emoji: "🐟" },
+            { name: "Kering Tempe", desc: "Crispy fried tempeh", price: 3000, emoji: "🟫" },
+            { name: "Cah Kangkung", desc: "Stir-fried water spinach", price: 3000, emoji: "🥬" },
+            { name: "Tumis Kacang Panjang", desc: "Stir-fried long beans", price: 3000, emoji: "🫘" },
+            { name: "Tumis Daun Pepaya Ikan Teri", desc: "Stir-fried papaya leaves with anchovies", price: 3000, emoji: "🥬" },
+            { name: "Sayur Sop", desc: "Indonesian vegetable soup", price: 3000, emoji: "🍲" },
+            { name: "Capcay", desc: "Stir-fried mixed vegetables", price: 3000, emoji: "🥬" },
+            { name: "Mie Goreng", desc: "Indonesian fried noodles", price: 3000, emoji: "🍜" },
+            { name: "Telur Balado", desc: "Eggs in spicy red chili sauce", price: 5000, emoji: "🥚" },
+            { name: "Telur Kecap", desc: "Eggs in sweet soy sauce", price: 5000, emoji: "🥚" },
+            { name: "Urap Sayur", desc: "Mixed vegetables with grated coconut", price: 3000, emoji: "🥗" },
+            { name: "Telur Dadar", desc: "Indonesian omelet", price: 3000, emoji: "🍳" },
+            { name: "Sambal Goreng Kentang", desc: "Spicy fried potatoes", price: 3000, emoji: "🥔" },
+            { name: "Sambal Goreng Usus", desc: "Spicy fried intestines", price: 3000, emoji: "🍖" },
+            { name: "Terong Sambal", desc: "Eggplant in chili sauce", price: 3000, emoji: "🍆" },
+            { name: "Perkedel Kentang", desc: "Indonesian potato fritters", price: 2500, emoji: "🥔" },
+            { name: "Ikan Pindang Pedas", desc: "Spicy salted fish", price: 8000, emoji: "🐟" },
+            { name: "Ikan Nila Goreng", desc: "Fried tilapia fish", price: 8000, emoji: "🐟" },
+            { name: "Ati Ampela", desc: "Chicken liver and gizzard", price: 5000, emoji: "🍖" },
+            { name: "Sayur Asem", desc: "Tamarind vegetable soup", price: 3000, emoji: "🍲" },
+            { name: "Tumis Buncis", desc: "Stir-fried green beans", price: 3000, emoji: "🫘" },
+            { name: "Oseng Tempe Tahu", desc: "Stir-fried tempeh and tofu", price: 3000, emoji: "🟫" },
+            { name: "Ayam Penyet", desc: "Smashed grilled chicken", price: 8000, emoji: "🍗" },
+            { name: "Ikan Asin Goreng", desc: "Fried salted fish", price: 3000, emoji: "🐟" },
+            { name: "Tempe Penyet", desc: "Smashed fried tempeh", price: 3000, emoji: "🟫" },
+            { name: "Tahu Penyet", desc: "Smashed fried tofu", price: 3000, emoji: "🧈" },
+            { name: "Telor Penyet", desc: "Smashed fried egg", price: 5000, emoji: "🥚" },
+            { name: "Terong Penyet", desc: "Smashed grilled eggplant", price: 5000, emoji: "🍆" },
+            { name: "Nasi Goreng", desc: "Indonesian fried rice", price: 10000, emoji: "🍛" },
+            { name: "Telur Asin", desc: "Salted egg", price: 6000, emoji: "🥚" },
+            { name: "Cumi-Cumi Hitam", desc: "Black squid in ink sauce", price: 10000, emoji: "🦑" },
+            { name: "Ikan Tongkol Pedas", desc: "Spicy skipjack tuna", price: 6000, emoji: "🐟" },
+            { name: "Udang Balado", desc: "Shrimp in spicy red chili sauce", price: 10000, emoji: "🦐" },
+            { name: "Tumis Labu Siam", desc: "Stir-fried chayote", price: 3000, emoji: "🥒" },
+            { name: "Tahu Goreng", desc: "Fried tofu", price: 1000, emoji: "🧈" },
+            { name: "Tempe Goreng", desc: "Fried tempeh", price: 1000, emoji: "🟫" },
+            { name: "Bakwan Jagung", desc: "Corn fritters", price: 1000, emoji: "🌽" },
+            { name: "Bakwan Sayur", desc: "Vegetable fritters", price: 1000, emoji: "🥬" },
+            { name: "Mendoan", desc: "Thin battered fried tempeh", price: 1000, emoji: "🟫" }
+        ];
+
+        const drinkItems = [
+            { name: "Air Putih", desc: "Plain water", price: 1000, emoji: "💧" },
+            { name: "Es/Panas Jeruk", desc: "Iced or hot orange drink", price: 5000, emoji: "🍊" },
+            { name: "Aneka Jus Buah", desc: "Various fruit juices", price: 7000, emoji: "🧃" },
+            { name: "Es/Panas Teh", desc: "Iced or hot tea", price: 3000, emoji: "🍵" },
+            { name: "Es/Panas Susu", desc: "Iced or hot milk", price: 4000, emoji: "🥛" },
+            { name: "Es/Panas Kopi", desc: "Iced or hot coffee", price: 5000, emoji: "☕" },
+            { name: "Es Nutrisari", desc: "Iced vitamin drink", price: 5000, emoji: "🧊" },
+            { name: "Pop Ice", desc: "Flavored ice drink", price: 3000, emoji: "🧊" },
+            { name: "Es Marimas", desc: "Iced flavored drink", price: 2000, emoji: "🧊" },
+            { name: "Wedang Jahe", desc: "Hot ginger drink", price: 6000, emoji: "🫖" }
+        ];
+
+        // Cart functionality
+        let cart = [];
+        let cartCount = 0;
+
+        function addToCart(name, price) {
+            const existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ name, price, quantity: 1 });
+            }
+            cartCount++;
+            updateCartDisplay();
+            
+            // Animation feedback
+            const button = event.target;
+            button.style.background = '#32cd32';
+            button.textContent = 'Added! ✓';
+            setTimeout(() => {
+                button.style.background = '#ff69b4';
+                button.textContent = 'Add to Cart';
+            }, 1000);
+        }
+
+        function updateCartDisplay() {
+            document.getElementById('cartCount').textContent = cartCount;
+            
+            const cartItemsContainer = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            cartItemsContainer.innerHTML = '';
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                total += item.price * item.quantity;
+                cartItemsContainer.innerHTML += `
+                    <div class="cart-item">
+                        <div>
+                            <strong>${item.name}</strong><br>
+                            <small>Rp ${item.price.toLocaleString('id-ID')}</small>
+                        </div>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn" onclick="decreaseQuantity(${index})">-</button>
+                            <span>${item.quantity}</span>
+                            <button class="quantity-btn" onclick="increaseQuantity(${index})">+</button>
+                            <button class="quantity-btn" onclick="removeFromCart(${index})" style="background: #ff4444; margin-left: 10px;">×</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            cartTotal.innerHTML = `Total: Rp ${total.toLocaleString('id-ID')}`;
+            
+            // Update order summary
+            updateOrderSummary();
+        }
+
+        function increaseQuantity(index) {
+            cart[index].quantity++;
+            cartCount++;
+            updateCartDisplay();
+        }
+
+        function decreaseQuantity(index) {
+            if (cart[index].quantity > 1) {
+                cart[index].quantity--;
+                cartCount--;
+                updateCartDisplay();
+            }
+        }
+
+        function removeFromCart(index) {
+            cartCount -= cart[index].quantity;
+            cart.splice(index, 1);
+            updateCartDisplay();
+        }
+
+        function toggleCart() {
+            const cartModal = document.getElementById('cartModal');
+            cartModal.style.display = cartModal.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function updateOrderSummary() {
+            const orderSummary = document.getElementById('orderSummary');
+            const orderItems = document.getElementById('orderItems');
+            const totalAmount = document.getElementById('totalAmount');
+            
+            if (cart.length > 0) {
+                orderSummary.style.display = 'block';
+                let itemsHtml = '';
+                let total = 0;
+                
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    itemsHtml += `<div style="display: flex; justify-content: space-between; margin: 5px 0;">
+                        <span>${item.name} x${item.quantity}</span>
+                        <span>Rp ${itemTotal.toLocaleString('id-ID')}</span>
+                    </div>`;
+                });
+                
+                orderItems.innerHTML = itemsHtml;
+                totalAmount.innerHTML = `<strong>Total: Rp ${total.toLocaleString('id-ID')}</strong>`;
+            } else {
+                orderSummary.style.display = 'none';
+            }
+        }
+
+        function processOrder() {
+            const name = document.getElementById('customerName').value;
+            const phone = document.getElementById('customerPhone').value;
+            const address = document.getElementById('customerAddress').value;
+            const deliveryTime = document.getElementById('deliveryTime').value;
+            const notes = document.getElementById('specialNotes').value;
+            
+            if (!name || !phone || !address || cart.length === 0) {
+                alert('Please fill in all required fields and add items to cart!');
+                return;
+            }
+            
+            orderViaWhatsApp();
+        }
+
+        function orderViaWhatsApp() {
+            if (cart.length === 0) {
+                alert('Please add items to cart first!');
+                return;
+            }
+            
+            const name = document.getElementById('customerName').value || ' Full Name';
+            const phone = document.getElementById('customerPhone').value || '08123456789';
+            const address = document.getElementById('customerAddress').value || 'Not provided';
+            const deliveryTime = document.getElementById('deliveryTime').value || 'asap';
+            const notes = document.getElementById('specialNotes').value || 'No special notes';
+            
+            let orderText = ` *Warung Makan Mbah Jum* \n\n`;
+            orderText += `👤 *Customer:* ${name}\n`;
+            orderText += `📱 *Phone:* ${phone}\n`;
+            orderText += `📍 *Address:* ${address}\n`;
+            orderText += `⏰ *Delivery Time:* ${deliveryTime}\n\n`;
+            orderText += `🛒 *Order Items:*\n`;
+            
+            let total = 0;
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                orderText += `• ${item.name} x${item.quantity} = Rp ${itemTotal.toLocaleString('id-ID')}\n`;
+            });
+            
+            orderText += `\n💰 *Total Amount:* Rp ${total.toLocaleString('id-ID')}\n\n`;
+            orderText += `📝 *Special Notes:* ${notes}\n\n`;
+            orderText += `Thank you for choosing Rumah Makan Mbah Jum`;
+            
+            const whatsappUrl = `https://wa.me/62895360361017?text=${encodeURIComponent(orderText)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        function generateMenuItems() {
+            const foodMenuContainer = document.getElementById('foodMenu');
+            const drinkMenuContainer = document.getElementById('drinkMenu');
+            
+            // Generate food items
+            foodItems.forEach(item => {
+                const menuItem = document.createElement('div');
+                menuItem.className = 'menu-item floating';
+                menuItem.innerHTML = `
+                    <div class="menu-item-content">
+                        <h3>${item.emoji} ${item.name}</h3>
+                        <p>${item.desc}</p>
+                        <div class="price">Rp ${item.price.toLocaleString('id-ID')}</div>
+                        <button class="add-to-cart" onclick="addToCart('${item.name}', ${item.price})">Add to Cart</button>
+                    </div>
+                `;
+                foodMenuContainer.appendChild(menuItem);
+            });
+            
+            // Generate drink items
+            drinkItems.forEach(item => {
+                const menuItem = document.createElement('div');
+                menuItem.className = 'menu-item floating';
+                menuItem.innerHTML = `
+                    <div class="menu-item-content">
+                        <h3>${item.emoji} ${item.name}</h3>
+                        <p>${item.desc}</p>
+                        <div class="price">Rp ${item.price.toLocaleString('id-ID')}</div>
+                        <button class="add-to-cart" onclick="addToCart('${item.name}', ${item.price})">Add to Cart</button>
+                    </div>
+                `;
+                drinkMenuContainer.appendChild(menuItem);
+            });
+        }
+
+        function showSection(sectionName) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Hide hero section
+            const hero = document.getElementById('home');
+            if (sectionName === 'home') {
+                hero.style.display = 'flex';
+            } else {
+                hero.style.display = 'none';
+                // Show selected section
+                const targetSection = document.getElementById(sectionName);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                }
+            }
+        }
+
+        // Initialize the website
+        document.addEventListener('DOMContentLoaded', function() {
+            generateMenuItems();
+            
+            // Add smooth scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Add entrance animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all menu items and feature cards
+            document.querySelectorAll('.menu-item, .feature-card').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'all 0.6s ease';
+                observer.observe(el);
+            });
+        });
+
+        // Close cart when clicking outside
+        document.getElementById('cartModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                toggleCart();
+            }
+        });
+
+        // Add some cute cursor effects
+        document.addEventListener('mousemove', function(e) {
+            const cursor = document.querySelector('.cursor');
+            if (!cursor) {
+                const newCursor = document.createElement('div');
+                newCursor.className = 'cursor';
+                newCursor.style.cssText = `
+                    position: fixed;
+                    width: 20px;
+                    height: 20px;
+                    background: radial-gradient(circle, #ff69b4, #ff1493);
+                    border-radius: 50%;
+                    pointer-events: none;
+                    z-index: 9999;
+                    mix-blend-mode: multiply;
+                    opacity: 0.7;
+                    transition: transform 0.1s ease;
+                `;
+                document.body.appendChild(newCursor);
+            }
+            
+            const cursorElement = document.querySelector('.cursor');
+            cursorElement.style.left = e.clientX - 10 + 'px';
+            cursorElement.style.top = e.clientY - 10 + 'px';
+        });
+
+        // Add click ripple effect
+        document.addEventListener('click', function(e) {
+            const ripple = document.createElement('div');
+            ripple.style.cssText = `
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 105, 180, 0.3);
+                pointer-events: none;
+                transform: scale(0);
+                animation: ripple 0.6s linear;
+                left: ${e.clientX - 25}px;
+                top: ${e.clientY - 25}px;
+                width: 50px;
+                height: 50px;
+                z-index: 1000;
+            `;
+            
+            document.body.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+
+        // Add ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
